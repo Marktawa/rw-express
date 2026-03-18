@@ -72,17 +72,23 @@ git push
 
 - Login Railway
 - Visit dashboard
-- Create new Railway project
-- Link GitHub repo
+- Click **+ New** to create new Railway project
+- Select the GitHub repo.
 - Add Build command.
 - Select your Service in the project canvas.
 - Select the **Settings** tab
-- Scroll down to Build commands
-- Click to edit
-- Type in your build command
+- Scroll down to **Build**
+- Click **+ Build Command** under **Custom Build Command**
+- Type in your build command. For example `npm run build`
 - Click to **✓** to Save.
 - Click **Deploy**
-- Wait for your project to be built and deployed
+- Wait for your project to be built and deployed.
+- Scroll to the **Networking** section in the **Settings** tab.
+- Click **Generate Domain** under **Public Networking**.
+- Type in the port your app is listening on. For example `3000`.
+- Click **Generate Domain**.
+- Click the generated domain to test if it gives the desired output
+
 
 Add Dockerfile
 ```sh
@@ -91,7 +97,14 @@ touch Dockerfile
 
 Add the following to `Dockerfile`:
 ```Dockerfile
-FROM node:18-alpine
+FROM node:22-alpine
 
 WORKDIR /app
+
+COPY package.json ./
+RUN npm install
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
 ```
